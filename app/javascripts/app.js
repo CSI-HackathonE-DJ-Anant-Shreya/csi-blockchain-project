@@ -32,7 +32,7 @@ function login() {
 
 
 function register() {
-  var user = MetaCoin.deployed();
+  var user = UserDatabase.deployed();
 
   var publickey = document.getElementById("username").value;
   //var privatekey = document.getElementById("email").value;
