@@ -17,6 +17,7 @@ contract Loans{
 	}
 	mapping (uint => Loan) loans;//maps a loanid to a loan
 	uint loanIds[];
+	mapping (uint => uint) private loanIdIndexes;
 	/*
 		TODO:
 		accessor functions for returning the loan data
@@ -31,7 +32,12 @@ contract Loans{
 		rate = loan.interestRate;
 	}
 
-	function getReturnedLoanData(uint loanId) onlyusers returns (address ben, uint amtraised, uint amtpaid, uint rate){
+	function getReturningLoanData(uint loanId) onlyusers returns (address ben, uint amtraised, uint amtpaid, uint rate){
+		Loan l = loans[loanId];
+		ben = l.beneficiary;
+		amtraised = l.amount;
+		amtraised = l.repaid;
+		rate = l.interestRate;
 
 	}
 
@@ -46,21 +52,33 @@ contract Loans{
 		loanIds.push(loanId);
 	}
 
-	function contribute(uint loanId) onlyowner{
+	function contribute(uint loanId) onlyusers{
 		Loan loan = loans[loanId];
-		if(!requiredAmountObtained(loanId) && ){
+		if(!requiredAmountObtained(loanId) && !loan.deadline <= now){
 			loan.amount+=msg.value;
 			loan.beneficiary.send(msg.value);
 			loan.lenders[msg.sender] =  true;
 			loan.numLenders++;
 		}else{
 			msg.sender.send(msg.value);
+		}
+		if(loan.deadline <= now){
+			refundMoney(loanId);
+			loans[loanId] = 0;
 		}		
 	}
 
 	function requiredAmountObtained(uint loanId) returns bool{
-		
+		Loan l = loans[loanId];
+		return (l.amount >= l.amountRequired);
 	}
 
-	function 
+	function refundMoney(uint loanId) onlyusers{
+		Loan l = loans[loanId];
+		if(loan.deadline >= now){
+
+		}else{
+			throw1
+		}
+	}
 }

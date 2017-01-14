@@ -1,7 +1,10 @@
 pragma solidity ^0.4.7;
 contract UserDatabase{
+
+
 	mapping (address => string) private passwords;
 	mapping (address => bool) existance;
+	
 
 	function addUser(address _user, string _pass){
 		if (passwords[_user]!=0){
@@ -24,5 +27,4 @@ contract UserDatabase{
 			throw;
 		}		
 	}
-
 }
