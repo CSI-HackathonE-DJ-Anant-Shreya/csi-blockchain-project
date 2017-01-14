@@ -12,9 +12,15 @@ contract Loans{
 		uint gracePeriod;
 		uint interestRate;
 		uint repaid;
-		mapping (address => bool) lenders;
+		mapping (address => uint) amountSpent;
 	}
 	mapping (uint => Loan) loans;//maps a loan to a loan id
+	uint private numLoans;
+	/*
+		TODO:
+		accessor functions for returning the loan data
+		interator to return loan data
+	*/
 
 	function newLoan(address beneficiary, uint amountRequired, int deadline, uint gracePeriod, uint interestRate) onlyusers returns (uint loanId){
 		loanId = uint(sha3(uint(beneficiary) + now));
@@ -24,13 +30,23 @@ contract Loans{
 		l.deadline = now+deadline;
 		l.gracePeriod = gracePeriod;
 		l.interestRate = interestRate;
+		numLoans++;
 	}
 
-	function contribute(uint LoanId) onlyowner{
-		Loan loan = loans[LoanId];
-		loan.amount+=msg.value;
-		loan.lenders[msg.sender] =  true;
+	function contribute(uint loanId) onlyowner{
+		Loan loan = loans[loanId];
+		if(!requiredAmountObtained(loanId)){
+			loan.amount+=msg.value;
+			loan.lenders[msg.sender] =  true;
+		}else{
+			msg.sender.send(msg.value);
+		}
 		loan.numLenders++;
-		if(num.repaid)
 	}
+
+	function requiredAmountObtained(uint loanId) returns bool{
+
+	}
+
+	function 
 }
