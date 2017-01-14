@@ -75,10 +75,14 @@ contract Loans{
 
 	function refundMoney(uint loanId) onlyusers{
 		Loan l = loans[loanId];
+		uint i;
+		address addr;
 		if(loan.deadline >= now){
-
+			for(i = 0; i<l.lenders.length; i++){
+				addr = 
+			}
 		}else{
-			throw1
+			throw;
 		}
 	}
 }
