@@ -3,6 +3,8 @@ import "./UserDatabase.sol";
 contract Loans{
 	
 	struct Loan{
+	    string title;
+	    string appeal;
 		address beneficiary;
 		uint amountRequired;
 		uint numLenders;
@@ -41,9 +43,12 @@ contract Loans{
 
 	}
 
-	function newLoan(address beneficiary, uint amountRequired, int deadline, uint gracePeriod, uint interestRate) onlyusers returns (uint loanId){
+	function newLoan(string title, string appeal, address beneficiary, uint amountRequired, int deadline, uint gracePeriod, uint interestRate) onlyusers returns (uint loanId){
+
 		loanId = uint(sha3(uint(beneficiary) + now));
 		Loan l = loans[loanId];
+		l.title=title;
+		l.appeal=appeal;
 		l.beneficiary = beneficiary;
 		l.amountRequired = amountRequired;
 		l.deadline = now+deadline;

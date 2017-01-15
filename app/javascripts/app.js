@@ -12,6 +12,9 @@ function setStatus2(message) {
 
 
 
+
+
+
 function login() {
   var user = UserDatabase.deployed();
 
@@ -48,3 +51,30 @@ function register() {
     setStatus2("Error registering");
   });
 };
+
+
+
+
+function newloan() {
+  var loan = Loans.deployed();
+
+  var title = document.getElementById("title").value;
+  var appeal = document.getElementById("comment").value;
+  var amount = parseInt(document.getElementById("amount").value);
+
+
+  loan.newLoan(title, appeal,amount).then(function() {
+    setStatus2("Appeal Successful");
+ 
+  }).catch(function(e) {
+    console.log(e);
+    setStatus2("Error request");
+  });
+
+};
+
+
+
+
+
+
