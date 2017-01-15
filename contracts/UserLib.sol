@@ -1,4 +1,4 @@
-// pragma solidity ^0.4.7;
+pragma solidity ^0.4.7;
 import "./Loans.sol";
 library UserLib{
 	struct User{

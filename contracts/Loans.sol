@@ -22,10 +22,10 @@ contract Loans{
 
 	}
 
-	function newLoan(address beneficiary, uint amountRequired, int deadline, uint gracePeriod, uint interestRate) onlyusers returns (uint loanId){
+	function newLoan(string title, string appeal, uint amountRequired, int deadline, uint gracePeriod, uint interestRate) onlyusers returns (uint loanId){
 		loanId = uint(sha3(uint(beneficiary) + now));
 		Loan l = loans[loanId];
-		l.beneficiary = beneficiary;
+		l.beneficiary = msg.sender;
 		l.amountRequired = amountRequired;
 		l.deadline = now+deadline;
 		l.gracePeriod = gracePeriod;
