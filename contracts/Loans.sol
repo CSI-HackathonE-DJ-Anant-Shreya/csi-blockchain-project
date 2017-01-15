@@ -25,6 +25,8 @@ contract Loans{
 	function newLoan(string title, string appeal, uint amountRequired, int deadline, uint gracePeriod, uint interestRate) onlyusers returns (uint loanId){
 		loanId = uint(sha3(uint(beneficiary) + now));
 		Loan l = loans[loanId];
+		l.title = title;
+		l.appeal = appeal;
 		l.beneficiary = msg.sender;
 		l.amountRequired = amountRequired;
 		l.deadline = now+deadline;
@@ -61,8 +63,6 @@ contract Loans{
 			for(i = 0; i<l.lenders.length; i++){
 				addr = l.lenders[i];
 			}
-		}else{
-			throw;
 		}
 	}
 }

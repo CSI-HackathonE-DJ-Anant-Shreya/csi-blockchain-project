@@ -23,8 +23,6 @@ contract UserDatabase{
 	modifier onlyusers{
 		if(existance[msg.sender] == true){
 			_;
-		}else{
-			throw;
 		}		
 	}
 }
