@@ -1,31 +1,10 @@
 pragma solidity ^0.4.7;
 import "./UserDatabase.sol";
-contract Loans{
-	
-	struct Loan{
-	    string title;
-	    string appeal;
-		address beneficiary;
-		uint amountRequired;
-		uint numLenders;
-		uint amount;
-		uint deadline;
-		uint returnPeriod;
-		uint gracePeriod;
-		uint interestRate;
-		uint repaid;
-		mapping (address => uint) amountSpent;
-		address lenders[];
-	}
-	mapping (uint => Loan) loans;//maps a loanid to a loan
-	uint loanIds[];
-	mapping (uint => uint) private loanIdIndexes;
-	/*
-		TODO:
-		accessor functions for returning the loan data
-		interator to return loan data
-	*/
+import LoansLib.Loan as Loan from "./LoansLib.sol";
+import LoansLib.loans as loans from "./LoansLib.sol";
+import LoansLib.loanIds as loanIds from "./LoansLib.sol";
 
+contract Loans{
 	function getLoanFundraiserData(uint loanId) onlyusers returns (address ben, uint amtreq, int deadline){
 		Loan loan = loans[loanId];
 		ben = loan.beneficiary;
@@ -43,13 +22,12 @@ contract Loans{
 
 	}
 
-	function newLoan(string title, string appeal, address beneficiary, uint amountRequired, int deadline, uint gracePeriod, uint interestRate) onlyusers returns (uint loanId){
-
+	function newLoan(string title, string appeal, uint amountRequired, int deadline, uint gracePeriod, uint interestRate) onlyusers returns (uint loanId){
 		loanId = uint(sha3(uint(beneficiary) + now));
 		Loan l = loans[loanId];
-		l.title=title;
-		l.appeal=appeal;
-		l.beneficiary = beneficiary;
+		l.title = title;
+		l.appeal = appeal;
+		l.beneficiary = msg.sender;
 		l.amountRequired = amountRequired;
 		l.deadline = now+deadline;
 		l.gracePeriod = gracePeriod;
@@ -61,8 +39,7 @@ contract Loans{
 		Loan loan = loans[loanId];
 		if(!requiredAmountObtained(loanId) && !loan.deadline <= now){
 			loan.amount+=msg.value;
-			loan.beneficiary.send(msg.value);
-			loan.lenders[msg.sender] =  true;
+			loan.amountSpent[msg.sender] = msg.value;
 			loan.numLenders++;
 		}else{
 			msg.sender.send(msg.value);
@@ -84,10 +61,8 @@ contract Loans{
 		address addr;
 		if(loan.deadline >= now){
 			for(i = 0; i<l.lenders.length; i++){
-				addr = 
+				addr = l.lenders[i];
 			}
-		}else{
-			throw;
 		}
 	}
 }
