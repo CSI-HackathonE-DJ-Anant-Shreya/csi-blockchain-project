@@ -6,8 +6,8 @@ import LoansLib.loanIds as loanIds from "./LoansLib.sol";
 library UserLib{
 	struct User{
 		address userAddress;
-		uint loansTaken[];
-		uint contributedTo[];
+		uint[] loansTaken;
+		uint[] contributedTo;
 	}
 	//use these in the interator
 	function startOfFundraisingLoans(User self) returns (uint index){

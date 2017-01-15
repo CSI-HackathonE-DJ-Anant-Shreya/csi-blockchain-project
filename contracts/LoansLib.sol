@@ -14,9 +14,9 @@ library LoansLib{
 		uint interestRate;
 		uint repaid;
 		mapping (address => uint) amountSpent;
-		address lenders[];
+		address[] lenders;
 	}
 	mapping (uint => Loan) loans;
-	uint loanIds[];
+	uint[] loanIds;
 	mapping (uint => uint) private loanIdIndexes;
 }
